@@ -68,7 +68,11 @@ if (isset($_GET['id'])) {
             echo "<iframe src='$filePath' width='100%' height='90vh'></iframe>";
         }
         else {
-            echo "<p>Unsupported file type!</p>";
+            echo "<p>Unsupported file type! <br>
+            Please download the file from manage files to access the content. <br>
+            Thank You !...
+            
+            </p>";
         }
         ?>
     </div>

@@ -11,16 +11,16 @@
         FROM uploads 
         WHERE user_id = '$user_id' 
         ORDER BY uploaded_at DESC 
-        LIMIT 5
-    ");
+        LIMIT 5"
+    );
 
     // Fetch file counts from uploads table based on user_id
     $countQuery = mysqli_query($con, "
         SELECT file_type, COUNT(*) AS total 
         FROM uploads 
         WHERE user_id = '$user_id' 
-        GROUP BY file_type
-    ");
+        GROUP BY file_type"  
+    );
 
     // Initialize counts
     $imageCount = 0;
@@ -133,6 +133,12 @@
             cursor: pointer;
             transition: transform 0.3s ease-in-out;
         }
+
+        img.rounded-circle {
+            border: 2px solid #fff;
+            object-fit: cover;
+        }
+
 
         .toggle-btn:hover {
             transform: rotate(90deg);
@@ -251,6 +257,7 @@
     </style>
 </head>
 <body>
+    <!-- Slidebar -->
 <div class="sidebar" id="sidebar">
     <h4>File Manager</h4>
     <a href="dashboard.php" class="active"><i class="bi bi-house"></i> <span class="link-text">Dashboard</span></a>
@@ -258,9 +265,8 @@
     <a href="managefiles.php"><i class="bi bi-folder"></i> <span class="link-text">Manage Files</span></a>
     <button class="toggle-btn" id="toggle-btn">&#x25C0;</button>
 </div>
-
+    <!-- Profile Dropdown -->
 <div class="content" id="content">
-    <!-- Calling the email from database -->
     <?php 
         $sql = mysqli_query($con,"SELECT * FROM register WHERE id = '".$_SESSION['id']."' ");
         while($abc = mysqli_fetch_array($sql)){
@@ -268,11 +274,13 @@
     <div class="d-flex justify-content-between align-items-center">
         <h2>Dashboard</h2>
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle"> </i> Profile
+            <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="<?php echo "profile_img/" . $abc['photo'] ?>" 
+                    alt="Profile" class="rounded-circle" width="40" height="40" style="object-fit: cover;">
+                <span class="ms-2"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item"><?php echo $abc['email']?></a></li>
+                <li><a class="dropdown-item"><?php echo $abc['email']; ?></a></li>
                 <?php } ?>
                 <li><a class="dropdown-item" href="profile.php">View Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -280,7 +288,7 @@
             </ul>
         </div>
     </div>
-    <hr>
+
     <div class="row">
         <!-- Card for Images -->
         <div class="col-md-4">

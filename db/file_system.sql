@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2025 at 07:34 PM
+-- Generation Time: Mar 01, 2025 at 03:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,9 +43,8 @@ CREATE TABLE `register` (
 --
 
 INSERT INTO `register` (`id`, `date`, `name`, `mobile`, `email`, `photo`, `pass`, `status`) VALUES
-(1, '2025-02-19', 'Hemant Gowardipe', '9881976415', 'rajugowardipe0@gmail.com', 'IMG_20250131_155750.jpg', 'hemant@2005', 'Active'),
-(2, '2025-02-20', 'Akanksha Gowardipe', '9923190543', 'rajugowardipe94@gmail.com', 'IMG-20240130-WA0106.jpg', 'akanksha@31', 'Active'),
-(4, '2025-02-21', 'hemant Gowardipe', '09881976415', 'rajugowardipe0@gmail.com', '20240130_164025.jpg', 'hemant@21', 'Active');
+(1, '2025-02-19', 'Hemant Gowardipe', '9881976415', 'rajugowardipe0@gmail.com', 'profile_1740389283.png', 'hemant@2005', 'Active'),
+(15, '2025-02-26', 'Geeta Gowardipe ', '09881976415', 'rajugowardipe94@gmail.com', 'profile_1740571994.jpg', 'raju@1972', 'Active');
 
 -- --------------------------------------------------------
 
@@ -61,36 +60,36 @@ CREATE TABLE `uploads` (
   `file_type` enum('folder','video','image') NOT NULL,
   `file_size` int(11) NOT NULL,
   `upload_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `shareable_link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `uploads`
 --
 
-INSERT INTO `uploads` (`id`, `user_id`, `file_name`, `file_path`, `file_type`, `file_size`, `upload_time`, `uploaded_at`) VALUES
-(1, 1, 'IMG_20240130_161923_239.jpg', 'uploads/1739953965_IMG_20240130_161923_239.jpg', 'image', 5838749, '2025-02-19 08:32:45', '2025-02-19 09:20:09'),
-(3, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954110_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:10', '2025-02-19 09:20:09'),
-(4, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954116_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:16', '2025-02-19 09:20:09'),
-(5, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954140_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:40', '2025-02-19 09:20:09'),
-(6, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954147_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:47', '2025-02-19 09:20:09'),
-(7, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954192_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:36:32', '2025-02-19 09:20:09'),
-(8, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954229_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:09', '2025-02-19 09:20:09'),
-(9, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954260_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:40', '2025-02-19 09:20:09'),
-(10, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954267_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:47', '2025-02-19 09:20:09'),
-(11, 1, 'Screen Recording 2025-02-19 140933.mp4', 'uploads/1739954384_Screen Recording 2025-02-19 140933.mp4', 'video', 16915255, '2025-02-19 08:39:44', '2025-02-19 09:20:09'),
-(12, 1, 'Screen Recording 2025-02-19 140933.mp4', 'uploads/1739958628_Screen Recording 2025-02-19 140933.mp4', 'video', 16915255, '2025-02-19 09:50:28', '2025-02-19 09:50:28'),
-(13, 1, 'Screen Recording 2025-02-19 140933.mp4', 'uploads/1739958681_Screen Recording 2025-02-19 140933.mp4', 'video', 16915255, '2025-02-19 09:51:21', '2025-02-19 09:51:21'),
-(14, 1, 'IMG_20250131_155750.jpg', 'uploads/1739958691_IMG_20250131_155750.jpg', 'image', 22790412, '2025-02-19 09:51:31', '2025-02-19 09:51:31'),
-(15, 1, 'DSA PLan.pdf', 'uploads/1739971933_DSA PLan.pdf', 'folder', 29706, '2025-02-19 13:32:13', '2025-02-19 13:32:13'),
-(17, 1, 'Chhatrapati-Shivaji-Maharaj-The-Fearless-Warrior-Status-Videos.mp4', 'uploads/1739972185_Chhatrapati-Shivaji-Maharaj-The-Fearless-Warrior-Status-Videos.mp4', 'video', 7143580, '2025-02-19 13:36:25', '2025-02-19 13:36:25'),
-(18, 2, 'IMG-20240130-WA0151.jpg', 'uploads/1740078795_IMG-20240130-WA0151.jpg', 'image', 149180, '2025-02-20 19:13:15', '2025-02-20 19:13:15'),
-(19, 2, 'IMG_20240130_161923_239.jpg', 'uploads/1740078802_IMG_20240130_161923_239.jpg', 'image', 5838749, '2025-02-20 19:13:22', '2025-02-20 19:13:22'),
-(20, 2, 'HemantGowardipe Resume.pdf', 'uploads/1740078834_HemantGowardipe Resume.pdf', 'folder', 158363, '2025-02-20 19:13:54', '2025-02-20 19:13:54'),
-(21, 2, '12th Marksheet.pdf', 'uploads/1740079567_12th Marksheet.pdf', 'folder', 186388, '2025-02-20 19:26:07', '2025-02-20 19:26:07'),
-(22, 2, 'Hemant_Gowardipe_-_Wed_Developer.pdf', 'uploads/1740079845_Hemant_Gowardipe_-_Wed_Developer.pdf', 'folder', 156400, '2025-02-20 19:30:45', '2025-02-20 19:30:45'),
-(23, 1, '10th Marksheet.pdf', 'uploads/1740118818_10th Marksheet.pdf', 'folder', 178900, '2025-02-21 06:20:18', '2025-02-21 06:20:18'),
-(24, 1, '10th Marksheet.pdf', 'uploads/1740118822_10th Marksheet.pdf', 'folder', 178900, '2025-02-21 06:20:22', '2025-02-21 06:20:22');
+INSERT INTO `uploads` (`id`, `user_id`, `file_name`, `file_path`, `file_type`, `file_size`, `upload_time`, `uploaded_at`, `shareable_link`) VALUES
+(1, 1, 'IMG_20240130_161923_239.jpg', 'uploads/1739953965_IMG_20240130_161923_239.jpg', 'image', 5838749, '2025-02-19 08:32:45', '2025-02-19 09:20:09', NULL),
+(2, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954110_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:10', '2025-02-19 09:20:09', NULL),
+(3, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954116_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:16', '2025-02-19 09:20:09', NULL),
+(4, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954140_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:40', '2025-02-19 09:20:09', NULL),
+(5, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954147_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:35:47', '2025-02-19 09:20:09', NULL),
+(6, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954192_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:36:32', '2025-02-19 09:20:09', NULL),
+(7, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954229_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:09', '2025-02-19 09:20:09', NULL),
+(8, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954260_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:40', '2025-02-19 09:20:09', NULL),
+(9, 1, 'Round-1ProblemStatements.pdf', 'uploads/1739954267_Round-1ProblemStatements.pdf', 'folder', 53054, '2025-02-19 08:37:47', '2025-02-19 09:20:09', NULL),
+(10, 1, 'Screen Recording 2025-02-19 140933.mp4', 'uploads/1739954384_Screen Recording 2025-02-19 140933.mp4', 'video', 16915255, '2025-02-19 08:39:44', '2025-02-19 09:20:09', NULL),
+(11, 1, 'IMG_20250131_155750.jpg', 'uploads/1739958691_IMG_20250131_155750.jpg', 'image', 22790412, '2025-02-19 09:51:31', '2025-02-19 09:51:31', NULL),
+(12, 1, 'DSA PLan.pdf', 'uploads/1739971933_DSA PLan.pdf', 'folder', 29706, '2025-02-19 13:32:13', '2025-02-19 13:32:13', NULL),
+(13, 1, 'Chhatrapati-Shivaji-Maharaj-The-Fearless-Warrior-Status-Videos.mp4', 'uploads/1739972185_Chhatrapati-Shivaji-Maharaj-The-Fearless-Warrior-Status-Videos.mp4', 'video', 7143580, '2025-02-19 13:36:25', '2025-02-19 13:36:25', NULL),
+(19, 1, '10th Marksheet.pdf', 'uploads/1740118818_10th Marksheet.pdf', 'folder', 178900, '2025-02-21 06:20:18', '2025-02-21 06:20:18', NULL),
+(20, 1, 'car', 'uploads/1740563588_car_drift.mp4', 'video', 13634329, '2025-02-26 09:53:08', '2025-02-26 09:53:08', NULL),
+(21, 1, 'IMG_20250131_155806.jpg', 'uploads/1740564348_IMG_20250131_155806.jpg', 'image', 163342, '2025-02-26 10:05:48', '2025-02-26 10:05:48', NULL),
+(24, 15, '20240130_164025.jpg', 'uploads/1740572629_20240130_164025.jpg', 'image', 5953365, '2025-02-26 12:23:49', '2025-02-26 12:23:49', NULL),
+(25, 15, 'SITnovatePresentationTemplate.pptx', 'uploads/1740572958_SITnovatePresentationTemplate.pptx', 'folder', 368912, '2025-02-26 12:29:18', '2025-02-26 12:29:18', NULL),
+(26, 15, 'IMG-20230223-WA0023.jpg', 'uploads/1740572972_IMG-20230223-WA0023.jpg', 'image', 150482, '2025-02-26 12:29:32', '2025-02-26 12:29:32', NULL),
+(27, 1, 'gitprofile.jpg', 'uploads/1740838034_gitprofile.jpg', 'image', 1615855, '2025-03-01 14:07:14', '2025-03-01 14:07:14', NULL),
+(28, 15, 'gitprofile.jpg', 'uploads/1740838193_gitprofile.jpg', 'image', 1615855, '2025-03-01 14:09:53', '2025-03-01 14:09:53', NULL);
 
 --
 -- Indexes for dumped tables
@@ -117,13 +116,13 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT for table `register`
 --
 ALTER TABLE `register`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
