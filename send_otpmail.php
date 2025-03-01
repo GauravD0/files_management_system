@@ -4,14 +4,16 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php'; // Load dependencies
 include('connect.php');
 
-// Load .env variables
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function sendConfirmationEmail($user_email) {
-    global $con; // Use database connection
+function sendOTPEmail($user_email) {
+    global $con;
 
-    // Fetch user details from the `register` table
+    // Generate 6-digit OTP
+    $otp = rand(100000, 999999);
+    $_SESSION['otp'] = $otp; // Store OTP in session
+
     $query = mysqli_query($con, "SELECT * FROM register WHERE email = '$user_email'");
     $user = mysqli_fetch_assoc($query);
 
@@ -20,12 +22,6 @@ function sendConfirmationEmail($user_email) {
     }
 
     $userName = $user['name'];
-    $userMobile = $user['mobile'];
-    $registrationDate = $user['date'];
-    $status = $user['status'];
-    $userPassword = $user['pass']; // Consider hashing passwords instead of sending plain text!
-    $profilePhoto = "http://localhost/file_system/profile_img/" . $user['photo']; // Adjust the path if needed
-
     $mail = new PHPMailer(true);
 
     try {
@@ -41,21 +37,17 @@ function sendConfirmationEmail($user_email) {
         // Email Details
         $mail->setFrom($_ENV['SMTP_USER'], 'File_System');
         $mail->addAddress($user_email, $userName);
-        $mail->Subject = 'Welcome to Our Platform!';
+        $mail->Subject = 'Password Reset OTP';
         $mail->isHTML(true);
 
-        // Email Body with Registration Details
+        // Email Body
         $mail->Body = "
-            <h3>Hi, $userName! 👋</h3>
-            <p>Thank you for registering on our platform.</p>
-            <p><strong>Registration Details:</strong></p>
-            <ul>
-                <li><strong>Name:</strong> $userName</li>
-                <li><strong>Email:</strong> $user_email</li>
-                <li><strong>Mobile:</strong> $userMobile</li>
-            </ul>
-            <p>We are excited to have you onboard!</p>
-            <P>Best Regars! <br>Hemant Gowardipe</br></p>
+            <h3>Hi, $userName!</h3>
+            <p>You requested to reset your password.</p>
+            <p><strong>Your OTP is: <span style='color: red;'>$otp</span></strong></p>
+            <p>Please enter this OTP to reset your password.</p>
+            <p>If you did not request this, please ignore this email.</p>
+            <p>Best Regards, <br>Hemant Gowardipe</p>
         ";
 
         return $mail->send() ? true : "Mailer Error: " . $mail->ErrorInfo;

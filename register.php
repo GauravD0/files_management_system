@@ -45,7 +45,7 @@ if (isset($_POST['reg'])) {
 
     if ($stmt->execute()) {
         // Send confirmation email
-        if (sendConfirmationEmail($email, $name)) {
+        if (sendConfirmationEmail($email , $name)) {
             echo "<script>alert('Registration Successful! A confirmation email has been sent.'); window.location.href='login.php';</script>";
         } else {
             echo "<script>alert('Registration Successful, but email failed to send.'); window.location.href='login.php';</script>";

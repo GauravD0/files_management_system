@@ -159,7 +159,7 @@ $totalStorage = mysqli_fetch_assoc($totalStorageQuery)['total_storage'] / (1024 
     <div class="sidebar">
         <h4 class="text-center">Admin Panel</h4>
         <a href="admin_dashboard.php">Dashboard</a>
-        <a href="admin_user.php">File Management</a>
+        <a href="admin_user.php">User Management</a>
         <a href="admin_logout.php">Logout</a>
     </div>
     

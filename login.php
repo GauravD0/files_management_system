@@ -70,6 +70,11 @@
         <!-- Login Button -->
         <button type="submit" name="login" onsubmit="showSuccessMessage(event)" class="btn btn-primary w-full">Login</button>
 
+        <!-- Forgot Password Link -->
+        <p class="text-center text-sm text-gray-600 mt-2">
+            <a href="forgot_password.php" class="text-blue-500">Forgot Password?</a>
+        </p>
+
         <!-- Success Message -->
         <div id="successMessage" class="hidden alert alert-success mt-4">Login Successful! Redirecting...</div>
 

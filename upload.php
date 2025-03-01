@@ -34,16 +34,16 @@ function uploadFile($fileInputName, $fileType, $dbCon, $userId) {
             mysqli_stmt_bind_param($stmt, 'isssi', $userId, $fileName, $uploadPath, $fileType, $fileSize);
             
             if (mysqli_stmt_execute($stmt)) {
-                echo "<div class='alert alert-success'>File uploaded successfully!</div>";
+                echo "<script>alert('File uploaded successfully!');</script>";
             } else {
-                echo "<div class='alert alert-danger'>Database error: " . mysqli_error($dbCon) . "</div>";
+                echo"<script>alert('Database error: . mysqli_error($dbCon) .');</script>";
             }
             mysqli_stmt_close($stmt);
         } else {
-            echo "<div class='alert alert-danger'>Failed to move uploaded file.</div>";
+            echo "<script>alert('Failed to move uploaded file');</script>";
         }
     } else {
-        echo "<div class='alert alert-warning'>No file selected or upload error.</div>";
+        echo "<script>alert('No file selected or Upload error');</script>";
     }
 }
 
@@ -78,16 +78,6 @@ if (isset($_POST['uimgage'])) {
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        .uploading {
-            display: none;
-            text-align: center;
-            margin-top: 20px; /* Push it below the form */
-            position: relative; /* Keep it in proper alignment */
-            z-index: 1; /* Prevents it from going behind other elements */
-        }
-
-
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -241,29 +231,6 @@ if (isset($_POST['uimgage'])) {
             display: none;
         }
 
-.uploading {
-            display: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .dot-animation span {
-            animation: blink 1.5s infinite;
-        }
-
-        .dot-animation span:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .dot-animation span:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
         @media (max-width: 768px) {
             .sidebar {
                 width: 200px;
@@ -278,6 +245,7 @@ if (isset($_POST['uimgage'])) {
                 margin-left: 60px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -336,19 +304,12 @@ if (isset($_POST['uimgage'])) {
             <label for="folder"><b>Upload Image :</b></label>
             <input type="file" name="image" required>
             <button type="submit" name="uimgage" class="upload-button btn btn-sm"><i class="bi bi-file-earmark-image"></i> Upload Image</button>
-            <div class="uploading" id="uploading">
-                <p>Uploading<span class="dot-animation"><span>.</span><span>.</span><span>.</span></span></p>
-            </div>
         </form>
-</div>
+    </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Slidebar Script -->
-<script>
-    function startUploading() {
-        document.getElementById('uploading').style.display = 'block';
-    }
-    
+<script> 
     // Sidebar toggle functionality
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
@@ -360,6 +321,5 @@ if (isset($_POST['uimgage'])) {
         toggleBtn.innerHTML = sidebar.classList.contains('minimized') ? '&#x25BA;' : '&#x25C0;';
     });
 </script>
-
 </body>
 </html>
