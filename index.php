@@ -110,8 +110,9 @@
             border: none;
             padding: 12px 30px;
             font-size: 18px;
-            border-radius: 30px;
+            border-radius: 10px;
             transition: 0.3s;
+
         }
         .btn-primary:hover {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);

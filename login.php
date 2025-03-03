@@ -1,34 +1,40 @@
 <?php
-    session_start();
-    include('connect.php');
+session_start();
+include('connect.php');
 
-   if(isset($_POST['login']))
-   {
-       $user = $_POST['user'];
-       $pass = $_POST['pass'];
+if(isset($_POST['login'])) {
+    $user = mysqli_real_escape_string($con, $_POST['user']);
+    $pass = mysqli_real_escape_string($con, $_POST['pass']);
 
-       $sql = mysqli_query($con,"SELECT * FROM `register` WHERE `email` = '$user' AND `pass` = '$pass' ");
-       $row = mysqli_num_rows($sql);
-       while($result = mysqli_fetch_assoc($sql))
-       {
-           // session used to fix the data 
-          $_SESSION['id'] = $result['id'];
-          $_SESSION['name'] = $result['name'];
-       }
-       if($row>0)
-       {
-           echo "<script>
-               window.top.location.href='dashboard.php';
-           </script>";
-       }
-       else
-       {
-           echo "<script>
-               alert('Invalid Username or Password')
-           </script>";
-       }
-   }
+    // Fetch user details
+    $sql = mysqli_query($con, "SELECT * FROM `register` WHERE `email` = '$user' AND `pass` = '$pass'");
+    $row = mysqli_num_rows($sql);
+
+    if($row > 0) {
+        $result = mysqli_fetch_assoc($sql);
+
+        if ($result) {  // Ensure result is not null
+            $user_id = $result['id'];
+            $_SESSION['id'] = $user_id;
+            $_SESSION['name'] = $result['name'];
+            $_SESSION['login_time'] = time(); // Store login timestamp
+
+            // Insert login record only if user_id exists
+            $insertQuery = "INSERT INTO user_activity (user_id, login_time) VALUES ('$user_id', NOW())";
+            if (mysqli_query($con, $insertQuery)) {
+                echo "<script>window.top.location.href='dashboard.php';</script>";
+            } else {
+                echo "<script>alert('Error recording login time!');</script>";
+            }
+        } else {
+            echo "<script>alert('Invalid user data!');</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid Username or Password');</script>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
