@@ -1,47 +1,81 @@
 <?php
 include('connect.php');
 
-$userId = $_GET['user_id'];
-
-$today = date('Y-m-d');
-$weekStart = date('Y-m-d', strtotime('last monday', strtotime($today)));
-$weekDays = [];
-$fullDates = []; // Store full dates for tooltips
-
-// Generate short names for weekdays & full dates
-for ($i = 0; $i < 7; $i++) {
-    $date = date('Y-m-d', strtotime($weekStart . " +$i days"));
-    $shortDayName = date('D', strtotime($date)); // "Mon", "Tue"
-    $fullDate = date('d M Y', strtotime($date)); // "04 Mar 2025"
-    
-    $weekDays[$date] = $shortDayName;
-    $fullDates[$date] = $fullDate;
+if (!isset($_GET['user_id'])) {
+    echo json_encode(["error" => "User ID not provided"]);
+    exit;
 }
 
-$query = "SELECT 
-            DATE(login_time) AS activity_date,
-            SUM(TIMESTAMPDIFF(SECOND, login_time, logout_time)) AS total_seconds
-          FROM user_activity
-          WHERE user_id = '$userId' AND logout_time IS NOT NULL 
-            AND DATE(login_time) BETWEEN '$weekStart' AND '$today'
-          GROUP BY DATE(login_time)
-          ORDER BY activity_date ASC";
+$user_id = intval($_GET['user_id']);
 
-$result = mysqli_query($con, $query);
-$timeSpent = array_fill_keys(array_keys($weekDays), 0);
+// Fetch time spent (duration) per day
+$query = "SELECT DATE(login_time) AS log_date, SUM(duration) / 3600 AS total_hours 
+          FROM user_activity 
+          WHERE user_id = ? 
+          GROUP BY log_date 
+          ORDER BY log_date ASC";
 
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$activityData = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $date = $row['activity_date'];
-    $total_seconds = $row['total_seconds'];
-
-    // Convert time to hours (numeric format for Chart.js)
-    $timeSpent[$date] = round($total_seconds / 3600, 2);
+    $activityData[$row['log_date']] = [
+        'total_hours' => round($row['total_hours'], 2),
+        'file_count' => 0 // Default 0 (to be updated later)
+    ];
 }
 
-// Send short weekdays, time spent, and full dates
+// Fetch uploaded files per day
+$queryUploads = "SELECT DATE(upload_time) AS upload_date, COUNT(*) AS file_count 
+                 FROM uploads 
+                 WHERE user_id = ? 
+                 GROUP BY upload_date 
+                 ORDER BY upload_date ASC";
+
+$stmtUploads = mysqli_prepare($con, $queryUploads);
+mysqli_stmt_bind_param($stmtUploads, "i", $user_id);
+mysqli_stmt_execute($stmtUploads);
+$resultUploads = mysqli_stmt_get_result($stmtUploads);
+
+while ($row = mysqli_fetch_assoc($resultUploads)) {
+    $date = $row['upload_date'];
+    
+    // If the date exists in user activity, update file count
+    if (isset($activityData[$date])) {
+        $activityData[$date]['file_count'] = $row['file_count'];
+    } else {
+        // If no login activity on this date, add it with 0 hours
+        $activityData[$date] = [
+            'total_hours' => 0,
+            'file_count' => $row['file_count']
+        ];
+    }
+}
+
+// Sort by date
+ksort($activityData);
+
+// Prepare response data
+$weekDays = [];
+$fullDates = [];
+$timeSpent = [];
+$filesUploaded = [];
+
+foreach ($activityData as $date => $data) {
+    $weekDays[] = date("D", strtotime($date)); // Short day name (Mon, Tue, etc.)
+    $fullDates[] = $date;
+    $timeSpent[] = $data['total_hours'];
+    $filesUploaded[] = $data['file_count'];
+}
+
+// Return JSON response
 echo json_encode([
-    'weekDays' => array_values($weekDays),
-    'timeSpent' => array_values($timeSpent),
-    'fullDates' => array_values($fullDates)
+    "weekDays" => $weekDays,
+    "fullDates" => $fullDates,
+    "timeSpent" => $timeSpent,
+    "filesUploaded" => $filesUploaded
 ]);
 ?>

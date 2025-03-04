@@ -367,7 +367,7 @@
             <td><?php echo $row['uploaded_at']; ?></td>
             <td>
                 <!-- Preview Button -->
-                <a href="preview.php?id=<?php echo $row['id']; ?>" target="_blank" class="btn btn-info">Preview</a>
+                <a href="preview.php?id=<?php echo $row['id']; ?>" target="_blank" class="btn btn-outline-primary">Preview</a>
             </td>
         </tr>
     <?php } ?>

@@ -19,10 +19,8 @@ $usersResult = mysqli_query($con, $usersQuery);
 <body class="bg-light">
     <div class="container mt-5">
         <!-- Back Button -->
-        <a href="javascript:history.back()" class="btn btn-secondary mb-3">
-            ← Back
-        </a>
-        <h2 class="text-center mb-4">User Time Spent Analytics</h2>
+        <a href="javascript:history.back()" class="btn btn-secondary mb-3">← Back</a>
+        <h2 class="text-center mb-4">User Time Spent & File Uploads</h2>
 
         <!-- User Table -->
         <table class="table table-bordered">
@@ -36,11 +34,13 @@ $usersResult = mysqli_query($con, $usersQuery);
             <tbody>
                 <?php while ($user = mysqli_fetch_assoc($usersResult)) { ?>
                     <tr>
-                        <td><?= $user['id'] ?></td>
-                        <td><?= $user['name'] ?></td>
+                        <td><?= htmlspecialchars($user['id']) ?></td>
+                        <td><?= htmlspecialchars($user['name']) ?></td>
                         <td>
-                            <button class="btn btn-primary show-graph" data-user="<?= $user['id'] ?>" data-name="<?= $user['name'] ?>">
-                                Show Time Spent
+                            <button class="btn btn-primary show-graph" 
+                                    data-user="<?= $user['id'] ?>" 
+                                    data-name="<?= htmlspecialchars($user['name']) ?>">
+                                Show Analytics
                             </button>
                         </td>
                     </tr>
@@ -58,30 +58,51 @@ $usersResult = mysqli_query($con, $usersQuery);
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const ctx = document.getElementById('userActivityChart').getContext('2d');
-        let userActivityChart;
+        let userActivityChart = null;
 
         document.querySelectorAll(".show-graph").forEach(button => {
             button.addEventListener("click", function() {
                 const userId = this.getAttribute("data-user");
                 const userName = this.getAttribute("data-name");
-                document.getElementById("chartTitle").innerText = `Time Spent by ${userName}`;
+                document.getElementById("chartTitle").innerText = `Activity Overview for ${userName}`;
 
                 fetch(`fetch_user_data.php?user_id=${userId}`)
                     .then(response => response.json())
                     .then(data => {
-                        if (userActivityChart) userActivityChart.destroy();
+                        console.log("Fetched Data:", data); // Debugging
+
+                        if (!data.weekDays || !data.timeSpent || !data.filesUploaded) {
+                            alert("Error: No data available for this user.");
+                            return;
+                        }
+
+                        // Destroy existing chart if exists
+                        if (userActivityChart) {
+                            userActivityChart.destroy();
+                        }
 
                         userActivityChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: data.weekDays, // X-axis: Short days of the week
-                                datasets: [{
-                                    label: "Time Spent",
-                                    data: data.timeSpent, // Y-axis: Time spent in hours (numeric)
-                                    backgroundColor: 'rgba(54, 162, 235, 0.6)', 
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    borderWidth: 1
-                                }]
+                                labels: data.weekDays, // Days of the week
+                                datasets: [
+                                    {
+                                        label: "Time Spent (Hours)",
+                                        data: data.timeSpent,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1,
+                                        yAxisID: 'y-time' // Assign to left y-axis
+                                    },
+                                    {
+                                        label: "Files Uploaded",
+                                        data: data.filesUploaded,
+                                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        borderWidth: 1,
+                                        yAxisID: 'y-files' // Assign to right y-axis
+                                    }
+                                ]
                             },
                             options: {
                                 responsive: true,
@@ -92,21 +113,29 @@ $usersResult = mysqli_query($con, $usersQuery);
                                             text: "Days of the Week"
                                         }
                                     },
-                                    y: {
+                                    'y-time': {
+                                        type: 'linear',
+                                        position: 'left',
                                         beginAtZero: true,
                                         suggestedMax: Math.max(...data.timeSpent, 1),
                                         ticks: {
-                                            stepSize: 0.5, // Every 30 minutes
                                             callback: function(value) {
-                                                if (value < 1) {
-                                                    return Math.round(value * 60) + " min"; // Convert <1h to minutes
-                                                }
-                                                return value + " h"; // Show hours
+                                                return value < 1 ? Math.round(value * 60) + " min" : value + " h";
                                             }
                                         },
                                         title: {
                                             display: true,
                                             text: "Time Spent (Hours & Minutes)"
+                                        }
+                                    },
+                                    'y-files': {
+                                        type: 'linear',
+                                        position: 'right',
+                                        beginAtZero: true,
+                                        suggestedMax: Math.max(...data.filesUploaded, 1),
+                                        title: {
+                                            display: true,
+                                            text: "Files Uploaded"
                                         }
                                     }
                                 },
@@ -114,20 +143,26 @@ $usersResult = mysqli_query($con, $usersQuery);
                                     tooltip: {
                                         callbacks: {
                                             label: function(tooltipItem) {
-                                                let value = tooltipItem.raw; // Numeric time spent value
-                                                let index = tooltipItem.dataIndex; // Get index of hovered bar
-                                                let date = data.fullDates[index]; // Get corresponding full date (from fetch_user_data.php)
+                                                let datasetIndex = tooltipItem.datasetIndex;
+                                                let value = tooltipItem.raw;
+                                                let index = tooltipItem.dataIndex;
+                                                let date = data.fullDates[index];
 
-                                                // Convert hours into minutes if less than 1 hour
-                                                let timeText = value < 1 ? Math.round(value * 60) + " min" : value.toFixed(2) + " h";
-
-                                                return `${date}: ${timeText}`;
+                                                if (datasetIndex === 0) { // Time spent dataset
+                                                    return `${date}: ${value < 1 ? Math.round(value * 60) + " min" : value.toFixed(2) + " h"}`;
+                                                } else { // Files uploaded dataset
+                                                    return `${date}: ${value} files uploaded`;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                        alert("Failed to load data. Check console for details.");
                     });
             });
         });

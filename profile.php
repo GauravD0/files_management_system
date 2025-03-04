@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
             </div>
             <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md">
                 <span class="text-gray-600 font-semibold">Password:</span>
-                <span class="text-gray-800"><?php echo $abc['pass']?></span>
+                <span class="text-gray-800">******</span>
             </div>
             <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md">
                 <span class="text-gray-600 font-semibold">Account Created:</span>
