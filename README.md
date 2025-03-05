@@ -137,15 +137,16 @@ Give a ⭐ if you like this project!
 ## 🌐 Screenshots
 
 <p align="center">
-  <img src="https://your-screenshot-link.com/screenshot1.png" alt="Screenshot 1" width="400" height="250">
-  <img src="https://your-screenshot-link.com/screenshot2.png" alt="Screenshot 2" width="400" height="250">
-  <img src="https://your-screenshot-link.com/screenshot1.png" alt="Screenshot 1" width="400" height="250">
-  <img src="https://your-screenshot-link.com/screenshot2.png" alt="Screenshot 2" width="400" height="250">
-  <img src="https://your-screenshot-link.com/screenshot1.png" alt="Screenshot 1" width="400" height="250">
-  <img src="https://your-screenshot-link.com/screenshot2.png" alt="Screenshot 2" width="400" height="250">
+  <img src="assets/Screenshot 2025-03-05 235321.png" alt="Screenshot 1" width="400" height="250">
+  <img src="assets/Screenshot 2025-03-05 235203.png" alt="Screenshot 2" width="400" height="250" >
+  <img src="assets/Screenshot 2025-03-05 235300.png" alt="Screenshot 1" width="400" height="250">
+  <img src="assets/Screenshot 2025-03-05 235419.png" alt="Screenshot 2" width="400" height="250">
+  <img src="assets/Screenshot 2025-03-05 235453.png" alt="Screenshot 1" width="400" height="250">
+  <img src="assets/Screenshot 2025-03-05 235609.png" alt="Screenshot 2" width="400" height="250">
 </p>
 
-## 🎥 Animations
+---
+
 <p align="center">
   <pre>
   ████████████████████████████████████████████████████  ██╗  ██╗███████╗██╗     ██╗      ██████╗
