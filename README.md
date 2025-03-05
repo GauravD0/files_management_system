@@ -1,7 +1,7 @@
 # 📁 Real-Time File Management System
 
 <p align="center">
-  <img src="https://private-user-images.githubusercontent.com/74038190/240906093-9be4d344-6782-461a-b5a6-32a07bf7b34e.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDExOTgxMTQsIm5iZiI6MTc0MTE5NzgxNCwicGF0aCI6Ii83NDAzODE5MC8yNDA5MDYwOTMtOWJlNGQzNDQtNjc4Mi00NjFhLWI1YTYtMzJhMDdiZjdiMzRlLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAzMDUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMzA1VDE4MDMzNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWRmOWE5M2ZlYjJjOGIzMTA3M2YwMjMwMTI1MTQyMjA0NjM1ZmI3M2Q1OTViMDRiZjBmZDkxZjI5ZjI3YzBiOTImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.ufI4_LWGAvOqSIIwcuXbrb9M44Wg36wJUDQd-JLZFG8" alt="Welcome Animation" width="600" height="400">
+  <img src="assets/240906093-9be4d344-6782-461a-b5a6-32a07bf7b34e.gif" alt="Welcome Animation" width="600" height="400">
 </p>
 
 ![GitHub Repo](https://img.shields.io/github/repo-size/hemantgowardipe/files_management_system)
